@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Wennya | Machine Learning</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="../static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
+
+
+    <!-- Plugin CSS -->
+    <link href="../static/vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+		<link href="../static/styles/creative.css" rel="stylesheet">
+
+		<style>.green {color:green}
+		.orange {color:orange}</style>
+  </head>
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="/">Wennya</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/priceForm">House Price Calculator</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/mortgageForm">Mortgage Risk Calculator</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/economic">Economic Growth Analysis</a>
+						</li>
+						<li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="/contacts">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section class="bg-primary" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <div class="container">
+                        <h1 class="text-uppercase">Mortgage Risk Calculator</h1>
+                        <p>Please fill out the fields below:</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+									<form action="/mortgageCalc" method="post" name="input_mortgage_data">
+										<!-- {{ form.csrf_token }}  -->
+										<table class="table table-condensed borderless" id="form">
+											<tr>
+												<td>{{form.loan_amount.label}}:</td>
+												<td>{{form.loan_amount(size=10)}}</td>
+											<td>{% for error in form.loan_amount.errors %}
+														<span style="color: red;">[{{ error }}]</span>
+														{% endfor %}</td>
+											</tr>
+											<tr>
+												<td>{{form.buyer_credit.label}}:</td>
+												<td>{{form.buyer_credit()}}</td>
+												<td>{% for error in form.loan_amount.errors %}
+														<span style="color: red;">[{{ error }}]</span>
+														{% endfor %}</td>
+											</tr>
+											<tr>
+											<td>{{form.cobuyer_credit.label}} (if available):</td>
+											<td>{{form.cobuyer_credit()}}</td>
+											<td>{% for error in form.loan_amount.errors %}
+														<span style="color: red;">[{{ error }}]</span>
+														{% endfor %}</td>
+											</tr>
+											<tr>
+												<td>{{form.loan_to_value.label}}:</td>
+												<td>{{form.loan_to_value()}} </td>
+												<td>{% for error in form.loan_amount.errors %}
+										<span style="color: red;">[{{ error }}]</span>
+										{% endfor %}</td>
+											</tr>
+											<tr>
+												<td>{{form.debt_to_income.label}}:</td>
+												<td>{{form.debt_to_income()}} </td>
+												<td>{% for error in form.loan_amount.errors %}
+										<span style="color: red;">[{{ error }}]</span>
+										{% endfor %}</td>
+											</tr>
+										</table>
+										<table class="table table-condensed borderless" id="form">
+											<tr>
+											<td>{{form.loan_state.label}}:</td>
+											<td>{{form.loan_purpose.label}}:</td>
+											<td>{{form.property_type.label}}:</td>
+											<td>{{form.occupancy_type.label}}:</td>
+											</tr>
+											<tr>
+											<td>{{form.loan_state()}} </td>
+											<td>{{form.loan_purpose()}} </td>
+											<td>{{form.property_type()}} </td>
+											<td>{{form.occupancy_type()}} </td>
+											</tr>
+										</table>
+										<p id="calculate"><input id="calculate" type="submit" class="btn btn-light btn-xl" value="Get Loan Prediction!"></p>
+									</form>
+									<div class="{{status}}">
+										<h2> This predicted status of this mortgage application
+										is: <strong><span id="resultColor">{{result}}</span></strong></h2>
+									</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="tableauSection" class="text-center">
+      <div class="container"> 
+      <h2>An Overview of Mortgage Rates and Credit Scores<h2>
+				<hr>
+				<div class='tableauPlaceholder' id='viz1530679998422' style='position: relative'><noscript><a href='#'><img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Mo&#47;MortgageRate_CreditRisk&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='MortgageRate_CreditRisk&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Mo&#47;MortgageRate_CreditRisk&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1530679998422');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.minWidth='420px';vizElement.style.maxWidth='650px';vizElement.style.width='100%';vizElement.style.minHeight='587px';vizElement.style.maxHeight='887px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+      </div>
+		</section>
+
+		<section id="codeAnalysis">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-sm-12">
+						<img class ="mortgage1" src="../static/img/mortgage1.png" width="600px" height="auto">
+						<h5>Rising mortgage rates pushing down home values</h5>
+						<p>The loan performance should consider within each geographical region. 
+							For a proof-of-concept perspective, we use state to group our dataset. 
+							Those continuous variables (e.g. loan amount, loan-to-value ration and 
+							debt-to-income ratio) are normalized by using their mean and standard
+							deviation by each state.
+						</p>
+						<h4>Logistic Regression</h4>
+						<p>We want to start with the very simple linear model to see how good we can achieve.</p>
+						<h4>Grid Search for Best Hyperparameter of Logistic Regression</h4>
+						<p>One of the most powerful feature of Scikit-Learn library is its grid 
+							search function. Here, we use cross-validation logistic model to search 
+							the best regulation parameter to give highest AUC score.</p>
+						<h4>Comments About Logistic Model</h4>
+						<p>Feature coefficients for the best logistic model we have:</p>
+						<img src="../static/img/mortgage2.png" width="500px" height="auto">
+						<img src="../static/img/mortgage3.png" width="500px" height="auto">
+						<h4>Stochastic Gradient Descent Classifier</h4>
+						<p>The next model to try is Support Vector Machine (SVM). 
+							However, SVM is notoriously slow especially when dealing with dataset size like here. 
+							Luckily, stochastic gradient descent based algorithm can speed up quite a bit. 
+							So, the second model to try is to use SGD classfier. It is very sensitive to the scale of the data. 
+							So we put in a StandardScaler transformer to normalize the whole feature matrix</p>
+						<h4>Comments on SGDClassifier</h4>
+						<p>SGD classifier did give a better AUC score (0.77). But the classification report shows that this model 
+							is similar to what we have by using logistic regression.</p>
+						<p>Coefficients in the model:</p>
+						<p>It would be good to grid search the SGDClassifier. This model is chosen to be the prediction model I use for the final prediction model.</p>
+						<img src="../static/img/mortgage4.png" width="500px" height="auto">
+						<img src="../static/img/mortgage5.png" width="500px" height="auto">
+						<h4>Gradient Boosting</h4>
+						<p>Gradient boosting technology is shown to be an effective method to find a low bias/low variance model. Here, we test out the gradient boosting method. Initial result shows it has similar performance as logistic regression or SGD classifier, using AUC score
+								AUC Score is: (0.79)</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="footer">
+			<p>Copyright © Jenny, Neela, Saranya, Sonny, Venessa, Wei 2018</p>
+		</div>
+		
+    <!-- Bootstrap core JavaScript -->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../static/vendor/scrollreveal/scrollreveal.min.js"></script>
+    <script src="../static/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+		<script src="../static/js/creative.min.js"></script>
+
+		<script>
+			function changeColor(result) {
+				if (result == 'OK'){
+					document.getElementById('resultColor').className = 'green';
+					console.log("a");
+				}
+				else if (result == "Caution!") {
+					document.getElementById('resultColor').className = 'orange';
+					console.log("b");
+				}
+			}
+			var $result = document.getElementById('resultColor').textContent;
+			console.log($result);
+			changeColor($result);
+		</script>
+
+  </body>
+
+</html>
